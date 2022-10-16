@@ -2,6 +2,8 @@
 """ Create a Hello HBNB page that runs on 0.0.0.0:5000"""
 
 from flask import Flask
+from markupsafe import escape
+
 
 app = Flask(__name__)
 
@@ -36,7 +38,7 @@ def python(text="is cool"):
 @app.route('/number/<int:n>', strict_slashes=False)
 def number(n):
     """display the number"""
-    return (f'{n} is a number')
+    return (f'{escape(n)} is a number')
 
 
 if __name__ == '__main__':
