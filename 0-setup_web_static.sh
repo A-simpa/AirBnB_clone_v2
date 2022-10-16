@@ -19,6 +19,6 @@ then
 fi
 chown -R ubuntu:ubuntu /data/
 locatehbnb="\\\tlocation /hbnb_static {\n\t\talias /data/web_static/current/;\n\t\tautoindex off;\n\t}\n" 
-sed -i "/server_name _;/a $locatehbnb" /etc/nginx/sites-enabled/default
+sed -i "/location \//i $locatehbnb" /etc/nginx/sites-enabled/default
 service nginx restart
 exit 0
