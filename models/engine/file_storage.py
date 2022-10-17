@@ -64,3 +64,7 @@ class FileStorage:
                 del FileStorage.__objects[key]
             except Exception:
                 return
+
+    def close(self):
+        """this method deserializes data, an alias for reload"""
+        self.reload()
