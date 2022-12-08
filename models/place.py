@@ -5,15 +5,6 @@ from sqlalchemy import Integer, String, Column, ForeignKey, Float, Table
 from sqlalchemy.orm import relationship
 
 
-place_amenity = Table('place_amenity', Base.metadata,
-                          Column('place_id', String(60),
-                                 ForeignKey('places.id'),
-                                 nullable=False, primary_key=True),
-                          Column('amenity_id', String(60),
-                                 ForeignKey('amenities.id'), primary_key=True))
-
-
-
 class Place(BaseModel, Base):
     """This is the class for Place
     Attributes:
@@ -40,6 +31,12 @@ class Place(BaseModel, Base):
     price_by_night = Column(Integer, nullable=False, default=0)
     latitude = Column(Float, nullable=True)
     longitude = Column(Float, nullable=True)
+    place_amenity = Table('place_amenity', Base.metadata,
+                          Column('place_id', String(60),
+                                 ForeignKey('places.id'),
+                                 nullable=False, primary_key=True),
+                          Column('amenity_id', String(60),
+                                 ForeignKey('amenities.id'), primary_key=True))
     amenities = relationship('Amenity', secondary=place_amenity,
                              viewonly=False, backref='place_amenities')
     reviews = relationship('Review', backref='place',
