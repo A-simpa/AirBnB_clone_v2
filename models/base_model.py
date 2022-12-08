@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """This is the base model class for AirBnB"""
 import uuid
-from models import storage_type
+import models
 from datetime import datetime
 from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
@@ -25,16 +25,15 @@ class BaseModel:
         else:
             for key, val in kwargs.items():
                 if key in ['updated_at', 'created_at']:
-                   setattr(self, key, datetime.fromisoformat(val))
+                    kwargs['updated_at'] = datetime.\
+                                           strptime(kwargs['updated_at'],
+                                                    '%Y-%m-%dT%H:%M:%S.%f')
+                    kwargs['created_at'] = datetime.\
+                        strptime(kwargs['created_at'],
+                                 '%Y-%m-%dT%H:%M:%S.%f')
+
                 elif key != '__class__':
-                   setattr(self, key, val)
-            if storage_type == 'db':
-                if not hasattr(kwargs, 'id'):
-                    setattr(self, 'id', str(uuid.uuid4()))
-                if not hasattr(kwargs, 'created_at'):
-                    setattr(self, 'created_at', datetime.now())
-                if not hasattr(kwargs, 'updated_at'):
-                    setattr(self, 'updated_at', datetime.now())
+                    setattr(self, key, val)
 
     def __str__(self):
         """returns a string

@@ -3,9 +3,7 @@
  of class File OR DB storage"""
 from os import environ
 
-storage_type = environ.get('HBNB_TYPE_STORAGE')
-
-if storage_type == 'db':
+if environ.get('HBNB_TYPE_STORAGE') == 'db':
     from models.engine.db_storage import DBStorage
     storage = DBStorage()
     storage.reload()
