@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """This is the base model class for AirBnB"""
 import uuid
-import models
+from models import storage_type
 from datetime import datetime
 from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
@@ -23,17 +23,13 @@ class BaseModel:
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
         else:
+            self.__init__()
             for key, val in kwargs.items():
                 if key in ['updated_at', 'created_at']:
-                    kwargs['updated_at'] = datetime.\
-                                           strptime(kwargs['updated_at'],
-                                                    '%Y-%m-%dT%H:%M:%S.%f')
-                    kwargs['created_at'] = datetime.\
-                        strptime(kwargs['created_at'],
-                                 '%Y-%m-%dT%H:%M:%S.%f')
-
+                    setattr(self, key, datetime.fromisoformat(val))
                 elif key != '__class__':
                     setattr(self, key, val)
+
 
     def __str__(self):
         """returns a string
